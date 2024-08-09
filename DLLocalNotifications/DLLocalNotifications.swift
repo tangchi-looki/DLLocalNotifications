@@ -245,8 +245,11 @@ public class DLNotificationScheduler {
                 
                 
             }
-            let content = UNMutableNotificationContent()
+            var content = UNMutableNotificationContent()
             
+            if let build = notification.build {
+                build(&content)
+            }
             content.title = notification.alertTitle!
             
             content.body = notification.alertBody!

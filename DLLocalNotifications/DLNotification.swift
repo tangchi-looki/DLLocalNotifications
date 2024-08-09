@@ -13,6 +13,8 @@ import MapKit
 @available(iOS 10.0, *)
 public class DLNotification {
     
+    public typealias BuildContent = ((inout UNMutableNotificationContent) -> ())
+    
     // Contains the internal instance of the notification
     internal var localNotificationRequest: UNNotificationRequest?
     
@@ -58,6 +60,8 @@ public class DLNotification {
     // Holds date components for a repeating notification
     public var fromDateComponents: DateComponents?
     
+    public var build: BuildContent?
+    
     enum CodingKeys: String, CodingKey {
         case localNotificationRequest
         case repeatInterval
@@ -88,8 +92,8 @@ public class DLNotification {
         }
     }
     
-    public init (identifier: String, alertTitle: String, alertBody: String, fromDateComponents: DateComponents, repeatInterval: RepeatingInterval ) {
-        
+    public init (identifier: String, alertTitle: String, alertBody: String, fromDateComponents: DateComponents, repeatInterval: RepeatingInterval, build: BuildContent? = nil) {
+        self.build = build
         self.alertBody = alertBody
         self.alertTitle = alertTitle
         self.repeatInterval = repeatInterval
@@ -103,8 +107,8 @@ public class DLNotification {
         
     }
     
-    public init (identifier: String, alertTitle: String, alertBody: String, date: Date ) {
-        
+    public init (identifier: String, alertTitle: String, alertBody: String, date: Date, build: BuildContent? = nil) {
+        self.build = build
         self.alertBody = alertBody
         self.alertTitle = alertTitle
         self.fireDate = date
@@ -118,8 +122,8 @@ public class DLNotification {
     // Region based notification
     // Default notifyOnExit is false and notifyOnEntry is true
     
-    public init (identifier: String, alertTitle: String, alertBody: String, region: CLRegion ) {
-        
+    public init (identifier: String, alertTitle: String, alertBody: String, region: CLRegion, build: BuildContent? = nil) {
+        self.build = build
         self.alertBody = alertBody
         self.alertTitle = alertTitle
         self.identifier = identifier
